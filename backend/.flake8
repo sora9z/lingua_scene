@@ -1,0 +1,17 @@
+# 참고: https://www.flake8rules.com/
+[flake8]
+max-line-length = 120
+
+exclude =
+    .git,
+    .gitignore,
+    */migrations/*,
+    __pycache__
+
+ignore =
+    E203,
+    E501,
+    E722
+
+# black에 대한 설정은 pyproject.toml에서 설정합니다.
+black-config = project.toml

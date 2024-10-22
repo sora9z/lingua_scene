@@ -4,7 +4,7 @@
   pip install pipenv
 
 - 가상환경 생성
-  pipenv --python 3.X
+  pipenv --python 3.12.\*
 
 - 가상환경 삭제
   pipenv --rm
@@ -16,7 +16,10 @@
 
 - 프레임워크 설치 pip install django
 - 아래 명렁어는 현재 폴더를 프로젝트 자체로 사용하겠다는 의미.
+
+```
   django-admin startproject config .
+```
 
 ## 패키지 설치
 

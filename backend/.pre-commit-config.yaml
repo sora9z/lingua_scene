@@ -1,0 +1,21 @@
+# isort black flake8을 순서대로 실행
+repos:
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        exclude: ^.*\b(migrations)\b.*$
+
+  - repo: https://github.com/psf/black
+    rev: 22.6.0
+    hooks:
+      - id: black
+        exclude: ^.*\b(migrations)\b.*$
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0 # 최신 안정 버전으로 업데이트
+    hooks:
+      - id: flake8
+        exclude: ^.*\b(migrations)\b.*$
+        args: [--config=backend/.flake8]
+# pre-commit install --install-hooks
