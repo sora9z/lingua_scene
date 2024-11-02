@@ -1,0 +1,46 @@
+# pre-commit 패키지를 이용해서 commit 전에 isort black flake8을 수행했던 것처럼 git action을 이용해서 main branch에 pull request가 들어왔을 때  isort black flake8를 자동으로 수행하고 그 결과를 나타낼 수 있도록
+
+name: Lint
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    strategy:
+      matrix:
+        python-version: [3.12]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pipenv
+
+      - id: cache-pipenv
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/virtualenvs/
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+
+      - name: Install Dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: |
+          pipenv install
+
+      - name: Lint check
+        run: |
+          pipenv run isort --check-only .
+          pipenv run black --check .
+          pipenv run flake8
